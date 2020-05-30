@@ -1,13 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Article } from './article.entity';
-import { Repository, getRepository } from 'typeorm';
+import { Repository, getRepository, DeleteResult } from 'typeorm';
 import { User } from 'src/users/user.entity';
 import { ArticlesRO } from './articles.ro';
 import { UserRepository } from 'src/users/user.repository';
 import { FollowsEntity } from 'src/profile/follows.entity';
-import { ArticleData } from './article.data';
 import { ArticleRO } from './article.ro';
+import { CreateArticleDto } from './dto/create-article.dto';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const slug = require('slug');
+
 
 @Injectable()
 export class ArticleService {
@@ -77,7 +80,40 @@ export class ArticleService {
 
     async findOne(where): Promise<ArticleRO> {
         const article = await this.articleRepository.findOne(where);
-        return {article};
-      }
+        return { article };
+    }
 
+    async create(userId: number, articleData: CreateArticleDto): Promise<Article> {
+
+        const article = new Article();
+        article.title = articleData.title;
+        article.description = articleData.description;
+        article.slug = this.slugify(articleData.title);
+
+
+        const newArticle = await this.articleRepository.save(article);
+
+        const author = await this.userRepository.findOne({ where: { id: userId }, relations: ['articles'] });
+        author.articles.push(article);
+
+        await this.userRepository.save(author);
+
+        return newArticle;
+
+    }
+
+    async update(slug: string, articleData: any): Promise<ArticleRO> {
+        const toUpdate = await this.articleRepository.findOne({ slug: slug });
+        const updated = Object.assign(toUpdate, articleData);
+        const article = await this.articleRepository.save(updated);
+        return { article };
+    }
+
+    async delete(slug: string): Promise<DeleteResult> {
+        return await this.articleRepository.delete({ slug: slug });
+    }
+
+    slugify(title: string) {
+        return slug(title, { lower: true }) + '-' + (Math.random() * Math.pow(36, 6) | 0).toString(36)
+    }
 }
