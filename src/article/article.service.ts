@@ -6,6 +6,8 @@ import { User } from 'src/users/user.entity';
 import { ArticlesRO } from './articles.ro';
 import { UserRepository } from 'src/users/user.repository';
 import { FollowsEntity } from 'src/profile/follows.entity';
+import { ArticleData } from './article.data';
+import { ArticleRO } from './article.ro';
 
 @Injectable()
 export class ArticleService {
@@ -47,13 +49,35 @@ export class ArticleService {
     }
 
     async findFeed(userId: number, query): Promise<ArticlesRO> {
-        const _follows = await this.followsRepository.find( {followerId: userId});
+        const _follows = await this.followsRepository.find({ followerId: userId });
 
         if (!(Array.isArray(_follows) && _follows.length > 0)) {
-          return {articles: [], articlesCount: 0};
+            return { articles: [], articlesCount: 0 };
         }
-    
+
         const ids = _follows.map(el => el.followingId);
         const qb = await getRepository(Article).createQueryBuilder('article').where('article.authorId IN (:ids)', { ids })
+
+        qb.orderBy('article.created', 'DESC');
+
+        const articlesCount = await qb.getCount();
+
+        if ('limit' in query) {
+            qb.limit(query.limit);
+        }
+
+        if ('offset' in query) {
+            qb.offset(query.offset);
+        }
+
+        const articles = await qb.getMany();
+
+        return { articles, articlesCount };
     }
+
+    async findOne(where): Promise<ArticleRO> {
+        const article = await this.articleRepository.findOne(where);
+        return {article};
+      }
+
 }

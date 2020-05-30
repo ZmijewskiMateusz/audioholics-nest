@@ -2,10 +2,11 @@ import { Controller, Get, UseGuards, UseInterceptors, ClassSerializerInterceptor
 import { AuthGuard } from '@nestjs/passport';
 import { Article } from './article.entity';
 import { ArticleService } from './article.service';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { GetUser } from 'src/users/user.decorator';
 import { ArticlesRO } from './articles.ro';
 
+@ApiTags('Article')
 @Controller('article')
 export class ArticleController {
 

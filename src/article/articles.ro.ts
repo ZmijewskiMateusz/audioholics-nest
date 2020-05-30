@@ -1,6 +1,6 @@
-import { ArticleRO } from "./article.ro";
+import { Article } from "./article.entity";
 
 export class ArticlesRO {
-    articles: ArticleRO[];
+    articles: Article[];
     articlesCount: number;
 }
