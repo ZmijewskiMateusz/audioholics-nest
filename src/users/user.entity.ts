@@ -4,11 +4,13 @@ import {
   PrimaryGeneratedColumn,
   Column,
   Entity,
-  Unique
+  Unique,
+  OneToMany
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
 import { ApiProperty } from '@nestjs/swagger';
+import { Article } from 'src/article/article.entity';
 
 
 @Entity()
@@ -45,6 +47,9 @@ export class User extends BaseEntity {
   @Column({ nullable: true })
   @ApiProperty()
   avatar: string;
+
+  @OneToMany(type => Article, article => article.author)
+  articles: Article[];
 
 
   async validatePassword(password: string): Promise<boolean> {
