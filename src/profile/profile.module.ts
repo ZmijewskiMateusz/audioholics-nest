@@ -5,7 +5,6 @@ import { AuthMiddleware } from 'src/users/auth.middleware';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/users/user.entity';
 import { FollowsEntity } from './follows.entity';
-import { UsersService } from 'src/users/users.service';
 import { UsersModule } from 'src/users/users.module';
 import { AppConfigModule } from 'src/config/app/config.module';
 
