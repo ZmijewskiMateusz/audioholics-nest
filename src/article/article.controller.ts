@@ -7,9 +7,10 @@ import { GetUser } from 'src/users/user.decorator';
 import { ArticlesRO } from './articles.ro';
 import { ArticleRO } from './article.ro';
 import { CreateArticleDto } from './dto/create-article.dto';
+import { User } from 'src/users/user.entity';
 
-@ApiTags('Article')
-@Controller('article')
+@ApiTags('Articles')
+@Controller('articles')
 export class ArticleController {
 
   constructor(private articleService: ArticleService) { }
@@ -26,7 +27,7 @@ export class ArticleController {
   @ApiResponse({ status: 200, description: 'Return article feed.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Get('feed')
-  async getFeed(@GetUser('id') userId: number, @Query() query): Promise<ArticlesRO> {
+  async getFeed(@GetUser() userId: number, @Query() query): Promise<ArticlesRO> {
     return await this.articleService.findFeed(userId, query);
   }
 
@@ -39,8 +40,8 @@ export class ArticleController {
   @ApiResponse({ status: 201, description: 'The article has been successfully created.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Post()
-  async create(@GetUser('id') userId: number, @Body('article') articleData: CreateArticleDto) {
-    return this.articleService.create(userId, articleData);
+  async create(@GetUser() user: User, @Body() articleData: CreateArticleDto) {
+    return this.articleService.create(user.id, articleData);
   }
 
   @ApiOperation({ summary: 'Update article' })
