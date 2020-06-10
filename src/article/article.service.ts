@@ -88,7 +88,10 @@ export class ArticleService {
         const article = new Article();
         article.title = articleData.title;
         article.description = articleData.description;
+        article.body = articleData.body;
+        article.category = articleData.category;
         article.slug = this.slugify(articleData.title);
+        article.points = 0;
 
 
         const newArticle = await this.articleRepository.save(article);

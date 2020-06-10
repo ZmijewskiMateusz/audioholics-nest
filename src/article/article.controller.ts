@@ -39,6 +39,8 @@ export class ArticleController {
   @ApiOperation({ summary: 'Create article' })
   @ApiResponse({ status: 201, description: 'The article has been successfully created.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @UseGuards(AuthGuard('jwt'))
+  @UseInterceptors(ClassSerializerInterceptor)
   @Post()
   async create(@GetUser() user: User, @Body() articleData: CreateArticleDto) {
     return this.articleService.create(user.id, articleData);
