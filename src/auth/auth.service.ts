@@ -8,6 +8,8 @@ import { JwtService } from '@nestjs/jwt';
 import { SignInDto } from './dto/signin.dto';
 import { UserVM } from './dto/user.vm';
 import { AppLogger } from 'src/common/logger/app-logger.service';
+import { EmailDto } from './dto/email.dto';
+import { ArtistNameDto } from './dto/artist-name.dto';
 
 @Injectable()
 export class AuthService {
@@ -50,11 +52,11 @@ export class AuthService {
     return response;
   }
 
-  async checkIfEmailExists(email: string): Promise<boolean> {
-    return await this.userRepository.findOne({ email: email }) ? true : false;
+  async checkIfEmailExists(emailDto: EmailDto): Promise<boolean> {
+    return await this.userRepository.findOne({ email: emailDto.email }) != undefined ? true : false;
   }
 
-  async checkIfArtistNameExists(artistName: string): Promise<boolean> {
-    return await this.userRepository.findOne({ artistName: artistName }) ? true : false;
+  async checkIfArtistNameExists(artistNameDto: ArtistNameDto): Promise<boolean> {
+    return await this.userRepository.findOne({ artistName: artistNameDto.artistName }) != undefined ? true : false;
   }
 }

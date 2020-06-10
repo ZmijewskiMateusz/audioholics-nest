@@ -12,6 +12,8 @@ import { User } from '../users/user.entity';
 import { ApiTags } from '@nestjs/swagger';
 import { SignInDto } from './dto/signin.dto';
 import { UserVM } from './dto/user.vm';
+import { EmailDto } from './dto/email.dto';
+import { ArtistNameDto } from './dto/artist-name.dto';
 
 @ApiTags('Authorization')
 @Controller('auth')
@@ -32,12 +34,12 @@ export class AuthController {
   }
 
   @Post('/checkemail')
-  checkIfEmailExists(@Body() email: string): Promise<boolean> {
-    return this.authService.checkIfEmailExists(email);
+  checkIfEmailExists(@Body() emailDto: EmailDto): Promise<boolean> {
+    return this.authService.checkIfEmailExists(emailDto);
   }
 
   @Post('/checkartistname')
-  checkIfArtistNameExists(@Body() artistName: string): Promise<boolean> {
-    return this.authService.checkIfEmailExists(artistName);
+  checkIfArtistNameExists(@Body() artistNameDto: ArtistNameDto): Promise<boolean> {
+    return this.authService.checkIfArtistNameExists(artistNameDto);
   }
 }
