@@ -49,4 +49,12 @@ export class AuthService {
     response.fileUrl = user.avatar;
     return response;
   }
+
+  async checkIfEmailExists(email: string): Promise<boolean> {
+    return await this.userRepository.findOne({ email: email }) ? true : false;
+  }
+
+  async checkIfArtistNameExists(artistName: string): Promise<boolean> {
+    return await this.userRepository.findOne({ artistName: artistName }) ? true : false;
+  }
 }
