@@ -6,7 +6,7 @@ import {
   InternalServerErrorException,
   ConflictException,
 } from '@nestjs/common';
-import { SignInDto } from 'src/auth/dto/signin.dto';
+import { SignInDto } from '../auth/dto/signin.dto';
 
 @EntityRepository(User)
 export class UserRepository extends Repository<User> {

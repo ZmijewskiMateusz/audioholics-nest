@@ -10,7 +10,7 @@ import {
 import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
 import { ApiProperty } from '@nestjs/swagger';
-import { Article } from 'src/article/article.entity';
+import { Article } from '../article/article.entity';
 
 
 @Entity()

@@ -3,11 +3,12 @@ import { AuthGuard } from '@nestjs/passport';
 import { Article } from './article.entity';
 import { ArticleService } from './article.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { GetUser } from 'src/users/user.decorator';
 import { ArticlesRO } from './articles.ro';
 import { ArticleRO } from './article.ro';
 import { CreateArticleDto } from './dto/create-article.dto';
-import { User } from 'src/users/user.entity';
+import { GetUser } from '../users/user.decorator';
+import { User } from '../users/user.entity';
+
 
 @ApiTags('Articles')
 @Controller('articles')

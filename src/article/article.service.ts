@@ -2,12 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Article } from './article.entity';
 import { Repository, getRepository, DeleteResult } from 'typeorm';
-import { User } from 'src/users/user.entity';
 import { ArticlesRO } from './articles.ro';
-import { UserRepository } from 'src/users/user.repository';
-import { FollowsEntity } from 'src/profile/follows.entity';
 import { ArticleRO } from './article.ro';
 import { CreateArticleDto } from './dto/create-article.dto';
+import { User } from '../users/user.entity';
+import { FollowsEntity } from '../profile/follows.entity';
+import { UserRepository } from '../users/user.repository';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const slug = require('slug');
 

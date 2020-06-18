@@ -11,13 +11,13 @@ import {
   Param,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from 'src/common/guards/roles.guard';
 import { GetUser } from './user.decorator';
 import { User } from './user.entity';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
+import { RolesGuard } from '../common/guards/roles.guard';
 
 @ApiTags('Users')
 @Controller('users')

@@ -4,8 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersController } from './users.controller';
 import { UserRepository } from './user.repository';
 import { PassportModule } from '@nestjs/passport';
-import { S3UploadsService } from 'src/common/upload-file';
-import { AppConfigModule } from 'src/config/app/config.module';
+import { AppConfigModule } from '../config/app/config.module';
+import { S3UploadsService } from '../common/upload-file';
+
 
 @Module({
   imports: [

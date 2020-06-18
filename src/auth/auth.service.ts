@@ -7,9 +7,9 @@ import { JwtPayload } from './dto/jwt-payload.dto';
 import { JwtService } from '@nestjs/jwt';
 import { SignInDto } from './dto/signin.dto';
 import { UserVM } from './dto/user.vm';
-import { AppLogger } from 'src/common/logger/app-logger.service';
 import { EmailDto } from './dto/email.dto';
 import { ArtistNameDto } from './dto/artist-name.dto';
+import { AppLogger } from '../common/logger/app-logger.service';
 
 @Injectable()
 export class AuthService {
