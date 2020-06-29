@@ -18,6 +18,7 @@ export class ArticleController {
 
   @ApiOperation({ summary: 'Get all articles' })
   @ApiResponse({ status: 200, description: 'Return all articles.' })
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get()
   async findAll(@Query() query): Promise<ArticlesRO> {
     return await this.articleService.findAll(query);
@@ -27,12 +28,14 @@ export class ArticleController {
   @ApiOperation({ summary: 'Get article feed' })
   @ApiResponse({ status: 200, description: 'Return article feed.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @UseInterceptors(ClassSerializerInterceptor)
   @Get('feed')
   async getFeed(@GetUser() userId: number, @Query() query): Promise<ArticlesRO> {
     return await this.articleService.findFeed(userId, query);
   }
 
   @Get(':slug')
+  @UseInterceptors(ClassSerializerInterceptor)
   async findOne(@Param('slug') slug): Promise<ArticleRO> {
     return await this.articleService.findOne({ slug });
   }
