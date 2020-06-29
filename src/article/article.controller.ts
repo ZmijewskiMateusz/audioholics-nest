@@ -66,4 +66,14 @@ export class ArticleController {
   async delete(@Param() params) {
     return this.articleService.delete(params.slug);
   }
+
+  @ApiOperation({ summary: 'Delete article' })
+  @ApiResponse({ status: 201, description: 'The article has been successfully deleted.' })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @Post(':slug')
+  async clap(@Param() params) {
+    return this.articleService.clap(params.slug);
+  }
+
+
 }

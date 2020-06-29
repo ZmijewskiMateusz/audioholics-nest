@@ -117,6 +117,13 @@ export class ArticleService {
         return await this.articleRepository.delete({ slug: slug });
     }
 
+    async clap(slug: string): Promise<ArticleRO> {
+        const toClap = await this.articleRepository.findOne({ slug: slug });
+        toClap.points++;
+        const article = await this.articleRepository.save(toClap);
+        return { article };
+    }
+
     slugify(title: string) {
         return slug(title, { lower: true }) + '-' + (Math.random() * Math.pow(36, 6) | 0).toString(36)
     }
