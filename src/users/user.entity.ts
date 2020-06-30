@@ -7,7 +7,6 @@ import {
   Unique,
   OneToMany
 } from 'typeorm';
-import { Exclude } from 'class-transformer';
 import * as bcrypt from 'bcrypt';
 import { ApiProperty } from '@nestjs/swagger';
 import { Article } from '../article/article.entity';
@@ -24,12 +23,10 @@ export class User extends BaseEntity {
   @ApiProperty()
   email: string;
 
-  @Column({select: false})
-  @Exclude()
+  @Column()
   password: string;
-
-  @Column({select: false})
-  @Exclude()
+  
+  @Column()
   salt: string;
 
   @Column()

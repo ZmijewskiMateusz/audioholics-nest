@@ -79,7 +79,7 @@ export class ArticleService {
     }
 
     async findOne(where): Promise<ArticleRO> {
-        const article = await this.articleRepository.findOne(where, {relations: ['author']
+        const article: any = await this.articleRepository.findOne(where, {relations: ['author']
         });
         return { article };
     }
@@ -120,7 +120,7 @@ export class ArticleService {
     async clap(slug: string): Promise<ArticleRO> {
         const toClap = await this.articleRepository.findOne({ slug: slug });
         toClap.points++;
-        const article = await this.articleRepository.save(toClap);
+        const article: any = await this.articleRepository.save(toClap);
         return { article };
     }
 

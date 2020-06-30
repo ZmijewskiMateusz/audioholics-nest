@@ -1,4 +1,6 @@
+import { UserData } from "./user.data";
+
 export class UserRO {
-    id: number;
-    email: string;
+    user: UserData;
 }
+
