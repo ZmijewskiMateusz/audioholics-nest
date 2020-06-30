@@ -24,11 +24,11 @@ export class User extends BaseEntity {
   @ApiProperty()
   email: string;
 
-  @Column()
+  @Column({select: false})
   @Exclude()
   password: string;
 
-  @Column()
+  @Column({select: false})
   @Exclude()
   salt: string;
 
