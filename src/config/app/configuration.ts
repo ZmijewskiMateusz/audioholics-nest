@@ -6,5 +6,5 @@ export default registerAs('app', () => ({
   url: process.env.APP_URL,
   port: process.env.APP_PORT,
   secret: process.env.SECRET,
-  cloudinary: process.env.CLOUDINARY,
+  cloudinary: process.env.CLOUDINARY_URL,
 }));

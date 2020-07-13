@@ -1,44 +1,56 @@
-import { PrimaryGeneratedColumn, Column, Entity, BeforeUpdate, ManyToOne } from "typeorm";
-import { ApiProperty } from "@nestjs/swagger";
-import { User } from "../users/user.entity";
+import {
+  PrimaryGeneratedColumn,
+  Column,
+  Entity,
+  BeforeUpdate,
+  ManyToOne,
+} from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
+import { User } from '../users/user.entity';
 
 @Entity()
 export class Article {
-    @PrimaryGeneratedColumn()
-    @ApiProperty()
-    id: number;
-  
-    @Column()
-    @ApiProperty()
-    slug: string;
+  @PrimaryGeneratedColumn()
+  @ApiProperty()
+  id: number;
 
-    @Column()
-    @ApiProperty()
-    title: string;
+  @Column()
+  @ApiProperty()
+  slug: string;
 
-    @Column({default: ''})
-    description: string;
+  @Column()
+  @ApiProperty()
+  title: string;
 
-    @Column({default: ''})
-    body: string;
+  @Column({ default: '' })
+  description: string;
 
-    @Column({ type: 'timestamp', default: () => "CURRENT_TIMESTAMP"})
-    created: Date;
-  
-    @Column({ type: 'timestamp', default: () => "CURRENT_TIMESTAMP"})
-    updated: Date;
+  @Column({ default: '' })
+  body: string;
 
-    @BeforeUpdate()
-    updateTimestamp() {
-      this.updated = new Date;
-    }
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  created: Date;
 
-    @Column()
-    category: string;
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  updated: Date;
 
-    @Column()
-    points: number;
+  @BeforeUpdate()
+  updateTimestamp() {
+    this.updated = new Date();
+  }
 
-    @ManyToOne(type => User, user => user.articles)
-    author: User;
+  @Column()
+  category: string;
+
+  @Column()
+  points: number;
+
+  @Column({ nullable: true })
+  headerImage: string;
+
+  @ManyToOne(
+    type => User,
+    user => user.articles,
+  )
+  author: User;
 }

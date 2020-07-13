@@ -1,4 +1,17 @@
-import { Controller, Get, UseGuards, UseInterceptors, ClassSerializerInterceptor, Query, Param, Body, Post, Put, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  UseGuards,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+  Query,
+  Param,
+  Body,
+  Post,
+  Put,
+  Delete,
+  UploadedFile,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Article } from './article.entity';
 import { ArticleService } from './article.service';
@@ -8,13 +21,12 @@ import { ArticleRO } from './article.ro';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { GetUser } from '../users/user.decorator';
 import { User } from '../users/user.entity';
-
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Articles')
 @Controller('articles')
 export class ArticleController {
-
-  constructor(private articleService: ArticleService) { }
+  constructor(private articleService: ArticleService) {}
 
   @ApiOperation({ summary: 'Get all articles' })
   @ApiResponse({ status: 200, description: 'Return all articles.' })
@@ -24,13 +36,15 @@ export class ArticleController {
     return await this.articleService.findAll(query);
   }
 
-
   @ApiOperation({ summary: 'Get article feed' })
   @ApiResponse({ status: 200, description: 'Return article feed.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @UseInterceptors(ClassSerializerInterceptor)
   @Get('feed')
-  async getFeed(@GetUser() userId: number, @Query() query): Promise<ArticlesRO> {
+  async getFeed(
+    @GetUser() userId: number,
+    @Query() query,
+  ): Promise<ArticlesRO> {
     return await this.articleService.findFeed(userId, query);
   }
 
@@ -41,26 +55,43 @@ export class ArticleController {
   }
 
   @ApiOperation({ summary: 'Create article' })
-  @ApiResponse({ status: 201, description: 'The article has been successfully created.' })
+  @ApiResponse({
+    status: 201,
+    description: 'The article has been successfully created.',
+  })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(ClassSerializerInterceptor)
+  @UseInterceptors(FileInterceptor('imageHeader'))
   @Post()
-  async create(@GetUser() user: User, @Body() articleData: CreateArticleDto) {
-    return this.articleService.create(user.id, articleData);
+  async create(
+    @GetUser() user: User,
+    @Body() articleData: CreateArticleDto,
+    @UploadedFile() imageHeader: any,
+  ) {
+    return this.articleService.create(user.id, articleData, imageHeader);
   }
 
   @ApiOperation({ summary: 'Update article' })
-  @ApiResponse({ status: 201, description: 'The article has been successfully updated.' })
+  @ApiResponse({
+    status: 201,
+    description: 'The article has been successfully updated.',
+  })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Put(':slug')
-  async update(@Param() params, @Body('article') articleData: CreateArticleDto) {
+  async update(
+    @Param() params,
+    @Body('article') articleData: CreateArticleDto,
+  ) {
     // Todo: update slug also when title gets changed
     return this.articleService.update(params.slug, articleData);
   }
 
   @ApiOperation({ summary: 'Delete article' })
-  @ApiResponse({ status: 201, description: 'The article has been successfully deleted.' })
+  @ApiResponse({
+    status: 201,
+    description: 'The article has been successfully deleted.',
+  })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Delete(':slug')
   async delete(@Param() params) {
@@ -68,12 +99,13 @@ export class ArticleController {
   }
 
   @ApiOperation({ summary: 'Clap' })
-  @ApiResponse({ status: 201, description: 'The article has been successfully applauded.' })
+  @ApiResponse({
+    status: 201,
+    description: 'The article has been successfully applauded.',
+  })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @Post(':slug')
   async clap(@Param() params) {
     return this.articleService.clap(params.slug);
   }
-
-
 }

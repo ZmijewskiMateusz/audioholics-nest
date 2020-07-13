@@ -6,11 +6,15 @@ import { UserRepository } from 'src/users/user.repository';
 import { Article } from './article.entity';
 import { FollowsEntity } from 'src/profile/follows.entity';
 import { UsersModule } from 'src/users/users.module';
+import { UploadService } from '../common/upload';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserRepository, FollowsEntity, Article]), UsersModule
+  imports: [
+    TypeOrmModule.forFeature([UserRepository, FollowsEntity, Article]),
+    UsersModule,
+    UploadService,
   ],
   controllers: [ArticleController],
-  providers: [ArticleService]
+  providers: [ArticleService, UploadService],
 })
-export class ArticleModule { }
+export class ArticleModule {}
