@@ -45,4 +45,17 @@ describe('UsersService', () => {
       expect(await service.findByEmail(user.email)).toEqual(user);
     });
   });
+
+  describe('findById', () => {
+    it('should return a user', async () => {
+      const user: UserData = {
+        id: 7312,
+        email: 'test@gmail.com',
+        artistName: 'Tester',
+        token: '23981e9fhf1h9f73hf743hfhrffh47',
+      };
+      repositoryMock.findOne.mockReturnValue(user);
+      expect(await service.findById(user.id)).toEqual(user);
+    });
+  });
 });

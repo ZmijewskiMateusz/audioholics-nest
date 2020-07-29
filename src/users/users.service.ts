@@ -14,7 +14,7 @@ export class UsersService {
     // @InjectRepository(Article)
     // private readonly coursesRepository: Repository<Article>,
     private readonly uploadFileService: S3UploadsService,
-  ) { }
+  ) {}
 
   public async findAll(): Promise<User[]> {
     return await this.userRepository.find();
@@ -25,7 +25,7 @@ export class UsersService {
   }
 
   public async findById(id: number): Promise<User> {
-    return await this.userRepository.findOneOrFail(id);
+    return await this.userRepository.findOne(id);
   }
 
   public async create(user: CreateUserDto): Promise<User> {
@@ -108,5 +108,4 @@ export class UsersService {
 
     return this.userRepository.save(user);
   }
-
 }
