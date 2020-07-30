@@ -62,14 +62,14 @@ export class ArticleController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(ClassSerializerInterceptor)
-  @UseInterceptors(FileInterceptor('imageHeader'))
+  @UseInterceptors(FileInterceptor('headerImage'))
   @Post()
   async create(
     @GetUser() user: User,
     @Body() articleData: CreateArticleDto,
-    @UploadedFile() imageHeader: any,
+    @UploadedFile() headerImage: any,
   ) {
-    return this.articleService.create(user.id, articleData, imageHeader);
+    return this.articleService.create(user.id, articleData, headerImage);
   }
 
   @ApiOperation({ summary: 'Update article' })

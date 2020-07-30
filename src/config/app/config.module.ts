@@ -17,6 +17,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         APP_PORT: Joi.number().default(3000),
         SECRET: Joi.string(),
         CLOUDINARY: Joi.string(),
+        DROPBOX: Joi.string(),
       }),
     }),
   ],

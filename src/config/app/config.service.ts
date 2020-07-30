@@ -23,4 +23,7 @@ export class AppConfigService {
   get cloudinary(): string {
     return this.configService.get<string>('app.cloudinary');
   }
+  get dropbox(): string {
+    return this.configService.get<string>('app.dropbox');
+  }
 }

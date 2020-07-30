@@ -7,4 +7,5 @@ export default registerAs('app', () => ({
   port: process.env.APP_PORT,
   secret: process.env.SECRET,
   cloudinary: process.env.CLOUDINARY_URL,
+  dropbox: process.env.DROPBOX,
 }));

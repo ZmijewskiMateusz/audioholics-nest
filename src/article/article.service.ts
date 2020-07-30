@@ -9,6 +9,7 @@ import { User } from '../users/user.entity';
 import { FollowsEntity } from '../profile/follows.entity';
 import { UserRepository } from '../users/user.repository';
 import { UploadService } from '../common/upload';
+import { dropboxService } from '../common/dropbox';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const slug = require('slug');
 
@@ -94,7 +95,7 @@ export class ArticleService {
   async create(
     userId: number,
     articleData: CreateArticleDto,
-    imageHeader: any,
+    headerImage: any,
   ): Promise<Article> {
     const article = new Article();
     article.title = articleData.title;
@@ -105,10 +106,18 @@ export class ArticleService {
     article.points = 0;
 
     article.headerImage =
-      imageHeader ??
-      this.uploadService.parser
-        .single('image')
-        .then((req, res) => res.json(req.file));
+      headerImage ??
+      (await dropboxService
+        .filesUpload({
+          path: `/audioholics`,
+          contents: headerImage,
+        })
+        .then(response => {
+          console.log(response);
+        })
+        .catch(err => {
+          console.log(err);
+        }));
 
     const newArticle = await this.articleRepository.save(article);
 
