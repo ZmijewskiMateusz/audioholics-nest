@@ -70,7 +70,6 @@ export class ArticleController {
     @Body() articleData: CreateArticleDto,
     @UploadedFile() headerImage: any,
   ) {
-    const bucket;
     return this.articleService.create(user.id, articleData, headerImage);
   }
 
