@@ -11,6 +11,7 @@ import { UserRepository } from '../users/user.repository';
 import { UploadService } from '../common/upload';
 import { dropboxService } from '../common/dropbox';
 import { S3UploadsService } from '../common/s3-uploads.service';
+import { ArticleData } from './article.data';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const slug = require('slug');
@@ -121,8 +122,8 @@ export class ArticleService {
     author.articles.push(article);
 
     await this.userRepository.save(author);
-
-    return newArticle;
+    const response = Object.assign(new ArticleData(), newArticle);
+    return response;
   }
 
   async update(slug: string, articleData: any): Promise<ArticleRO> {
