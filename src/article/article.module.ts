@@ -5,16 +5,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserRepository } from 'src/users/user.repository';
 import { Article } from './article.entity';
 import { FollowsEntity } from 'src/profile/follows.entity';
-import { UsersModule } from 'src/users/users.module';
+import { UsersModule } from '../users/users.module';
 import { UploadService } from '../common/upload';
+import { S3UploadsService } from '../common/s3-uploads.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([UserRepository, FollowsEntity, Article]),
     UsersModule,
-    UploadService,
+    S3UploadsService,
   ],
   controllers: [ArticleController],
-  providers: [ArticleService, UploadService],
+  providers: [ArticleService, S3UploadsService],
 })
 export class ArticleModule {}

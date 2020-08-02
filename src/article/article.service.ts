@@ -10,6 +10,8 @@ import { FollowsEntity } from '../profile/follows.entity';
 import { UserRepository } from '../users/user.repository';
 import { UploadService } from '../common/upload';
 import { dropboxService } from '../common/dropbox';
+import { S3UploadsService } from '../common/s3-uploads.service';
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const slug = require('slug');
 
@@ -22,7 +24,7 @@ export class ArticleService {
     private readonly userRepository: UserRepository,
     @InjectRepository(FollowsEntity)
     private readonly followsRepository: Repository<FollowsEntity>,
-    private readonly uploadService: UploadService,
+    private readonly s3UploadsService: S3UploadsService,
   ) {}
 
   async findAll(query): Promise<ArticlesRO> {
@@ -105,19 +107,10 @@ export class ArticleService {
     article.slug = this.slugify(articleData.title);
     article.points = 0;
 
-    article.headerImage =
-      headerImage ??
-      (await dropboxService
-        .filesUpload({
-          path: `/audioholics`,
-          contents: headerImage,
-        })
-        .then(response => {
-          console.log(response);
-        })
-        .catch(err => {
-          console.log(err);
-        }));
+    if (headerImage) {
+      const path = await this.s3UploadsService.uploadFile(headerImage);
+      article.headerImage = process.env.AWS_URL + path;
+    }
 
     const newArticle = await this.articleRepository.save(article);
 

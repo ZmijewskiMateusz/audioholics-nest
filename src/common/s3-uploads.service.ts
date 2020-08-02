@@ -16,7 +16,7 @@ export class S3UploadsService {
   }
 
   public uploadFile(file: any): Promise<string> {
-    if (!file.mimetype.match(/\/(jpg|jpeg|png|pdf)$/)) {
+    if (!file.mimetype.match(/\/(jpg|jpeg|png)$/)) {
       return;
     }
 

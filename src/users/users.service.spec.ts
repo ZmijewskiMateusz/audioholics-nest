@@ -8,7 +8,7 @@ import { UserRepository } from './user.repository';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { UserData } from './user.data';
-import { S3UploadsService } from '../common/upload-file';
+import { S3UploadsService } from '../common/s3-uploads.service';
 
 describe('UsersService', () => {
   let service: UsersService;

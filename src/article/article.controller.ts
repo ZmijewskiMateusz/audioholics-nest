@@ -22,6 +22,7 @@ import { CreateArticleDto } from './dto/create-article.dto';
 import { GetUser } from '../users/user.decorator';
 import { User } from '../users/user.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { storage } from '../common/storage';
 
 @ApiTags('Articles')
 @Controller('articles')
@@ -69,6 +70,7 @@ export class ArticleController {
     @Body() articleData: CreateArticleDto,
     @UploadedFile() headerImage: any,
   ) {
+    const bucket;
     return this.articleService.create(user.id, articleData, headerImage);
   }
 

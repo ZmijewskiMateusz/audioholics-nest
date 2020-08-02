@@ -5,7 +5,7 @@ import { User } from './user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserRepository } from './user.repository';
-import { S3UploadsService } from '../common/upload-file';
+import { S3UploadsService } from '../common/s3-uploads.service';
 @Injectable()
 export class UsersService {
   constructor(

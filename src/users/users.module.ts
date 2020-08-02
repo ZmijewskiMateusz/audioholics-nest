@@ -5,8 +5,7 @@ import { UsersController } from './users.controller';
 import { UserRepository } from './user.repository';
 import { PassportModule } from '@nestjs/passport';
 import { AppConfigModule } from '../config/app/config.module';
-import { S3UploadsService } from '../common/upload-file';
-
+import { S3UploadsService } from '../common/s3-uploads.service';
 
 @Module({
   imports: [
@@ -18,4 +17,4 @@ import { S3UploadsService } from '../common/upload-file';
   providers: [UsersService, S3UploadsService],
   exports: [UsersService, TypeOrmModule],
 })
-export class UsersModule { }
+export class UsersModule {}
