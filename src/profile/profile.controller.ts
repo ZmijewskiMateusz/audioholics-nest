@@ -18,7 +18,7 @@ export class ProfileController {
 
   @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get('profile')
+  @Get()
   async findByEmail(email: string): Promise<UserData> {
     return await this.profileService.findByEmail(email);
   }
