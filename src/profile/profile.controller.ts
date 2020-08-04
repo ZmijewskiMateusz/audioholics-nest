@@ -5,6 +5,7 @@ import {
   UseInterceptors,
   ClassSerializerInterceptor,
   Get,
+  Param,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -18,8 +19,8 @@ export class ProfileController {
 
   @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(ClassSerializerInterceptor)
-  @Get()
-  async findByEmail(email: string): Promise<UserData> {
+  @Get(':email')
+  async findByEmail(@Param('email') email: string): Promise<UserData> {
     return await this.profileService.findByEmail(email);
   }
 }

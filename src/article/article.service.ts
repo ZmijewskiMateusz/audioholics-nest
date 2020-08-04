@@ -9,7 +9,6 @@ import { User } from '../users/user.entity';
 import { FollowsEntity } from '../profile/follows.entity';
 import { UserRepository } from '../users/user.repository';
 import { UploadService } from '../common/upload';
-import { dropboxService } from '../common/dropbox';
 import { S3UploadsService } from '../common/s3-uploads.service';
 import { ArticleData } from './article.data';
 
