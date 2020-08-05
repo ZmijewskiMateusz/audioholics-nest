@@ -5,12 +5,12 @@ import {
   Column,
   Entity,
   Unique,
-  OneToMany
+  OneToMany,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiExcludeEndpoint } from '@nestjs/swagger';
 import { Article } from '../article/article.entity';
-
+import { Exclude } from 'class-transformer';
 
 @Entity()
 @Unique(['email'])
@@ -23,9 +23,11 @@ export class User extends BaseEntity {
   @ApiProperty()
   email: string;
 
+  @Exclude()
   @Column()
   password: string;
-  
+
+  @Exclude()
   @Column()
   salt: string;
 
@@ -37,7 +39,6 @@ export class User extends BaseEntity {
   @ApiProperty()
   artistName: string;
 
-
   @Column()
   isBlocked: boolean;
 
@@ -45,9 +46,11 @@ export class User extends BaseEntity {
   @ApiProperty()
   avatar: string;
 
-  @OneToMany(type => Article, article => article.author)
+  @OneToMany(
+    type => Article,
+    article => article.author,
+  )
   articles: Article[];
-
 
   async validatePassword(password: string): Promise<boolean> {
     const hash = await bcrypt.hash(password, this.salt);

@@ -10,9 +10,10 @@ import { AppConfigModule } from './config/app/config.module';
 import { DbConfigModule } from './config/database/config.module';
 import { LoggerModule } from './common/logger/logger.module';
 import { ProfileModule } from './profile/profile.module';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(ormconfig), LoggerModule, AppConfigModule, DbConfigModule, AuthModule, UsersModule, ArticleModule, ProfileModule],
+  imports: [TypeOrmModule.forRoot(ormconfig), LoggerModule, AppConfigModule, DbConfigModule, AuthModule, UsersModule, ArticleModule, ProfileModule, CommentModule],
   controllers: [AppController],
   providers: [AppService],
 })
