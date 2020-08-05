@@ -10,6 +10,7 @@ import {
 import * as bcrypt from 'bcrypt';
 import { ApiProperty, ApiExcludeEndpoint } from '@nestjs/swagger';
 import { Article } from '../article/article.entity';
+import { Comment } from '../comment/comment.entity';
 import { Exclude } from 'class-transformer';
 
 @Entity()
@@ -51,6 +52,12 @@ export class User extends BaseEntity {
     article => article.author,
   )
   articles: Article[];
+
+  @OneToMany(
+    type => Comment,
+    comment => comment.author,
+  )
+  comments: Comment[];
 
   async validatePassword(password: string): Promise<boolean> {
     const hash = await bcrypt.hash(password, this.salt);

@@ -4,28 +4,16 @@ import {
   Entity,
   BeforeUpdate,
   ManyToOne,
-  OneToMany,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { User } from '../users/user.entity';
-import { Comment } from '../comment/comment.entity';
+import { Article } from '../article/article.entity';
 
 @Entity()
-export class Article {
+export class Comment {
   @PrimaryGeneratedColumn()
   @ApiProperty()
   id: number;
-
-  @Column()
-  @ApiProperty()
-  slug: string;
-
-  @Column()
-  @ApiProperty()
-  title: string;
-
-  @Column({ default: '' })
-  description: string;
 
   @Column({ default: '' })
   body: string;
@@ -41,24 +29,15 @@ export class Article {
     this.updated = new Date();
   }
 
-  @Column()
-  category: string;
-
-  @Column()
-  points: number;
-
-  @Column({ nullable: true })
-  headerImage: string;
-
-  @OneToMany(
-    type => Comment,
-    comment => comment.article,
-  )
-  comments: Comment[];
-
   @ManyToOne(
     type => User,
-    user => user.articles,
+    user => user.comments,
   )
   author: User;
+
+  @ManyToOne(
+    type => Article,
+    article => article.comments,
+  )
+  article: Article;
 }
