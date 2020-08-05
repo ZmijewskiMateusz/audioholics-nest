@@ -9,7 +9,6 @@ export class ProfileService {
   constructor(private readonly userRepository: UserRepository) {}
 
   async findByEmail(email: string): Promise<UserData> {
-    const user = await this.userRepository.findOne({ email: email });
-    return Object.assign(new UserData(), user);
+    return await this.userRepository.findOne({ email: email });
   }
 }
