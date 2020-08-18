@@ -5,6 +5,8 @@ import { Article } from '../article/article.entity';
 import { UserRepository } from '../users/user.repository';
 import { User } from '../users/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { AddCommentDto } from './dto/add-comment.dto';
+import { ArticleData } from '../article/article.data';
 
 @Injectable()
 export class CommentService {
@@ -17,7 +19,11 @@ export class CommentService {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async create(slug: string, userId: number, body: string): Promise<Article> {
+  async create(
+    slug: string,
+    userId: number,
+    addCommentDto: AddCommentDto,
+  ): Promise<Comment> {
     let comment = new Comment();
     let article = await this.articleRepository.findOne(
       { slug },
@@ -31,7 +37,7 @@ export class CommentService {
 
     comment.author = author;
     comment.article = article;
-    comment.body = body;
+    comment.body = addCommentDto.body;
 
     const savedComment = await this.commentRepository.save(comment);
     article.comments.push(savedComment);
@@ -39,7 +45,7 @@ export class CommentService {
     author.comments.push(savedComment);
     await this.userRepository.save(author);
 
-    return article;
+    return savedComment;
   }
 
   async findAll(slug: string): Promise<Comment[]> {

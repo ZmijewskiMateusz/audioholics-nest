@@ -14,4 +14,5 @@ export class ArticleData {
   author?: UserRO;
   updateTimestamp?: Date;
   headerImage?: string;
+  //comments?: Comment[]
 }

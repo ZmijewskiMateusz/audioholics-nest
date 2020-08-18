@@ -68,7 +68,7 @@ export class ArticleController {
     @GetUser() user: User,
     @Body() articleData: CreateArticleDto,
     @UploadedFile() headerImage: any,
-  ) {
+  ): Promise<Article> {
     return this.articleService.create(user.id, articleData, headerImage);
   }
 
