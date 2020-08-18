@@ -17,18 +17,38 @@ export class CommentService {
     private readonly userRepository: UserRepository,
   ) {}
 
-  async create(slug: string, user: User, body: string): Promise<Comment> {
+  async create(slug: string, userId: number, body: string): Promise<Article> {
     let comment = new Comment();
+    let article = await this.articleRepository.findOne(
+      { slug },
+      {
+        relations: ['comments'],
+      },
+    );
+    let author = await this.userRepository.findOne(userId, {
+      relations: ['comments'],
+    });
+
+    comment.author = author;
+    comment.article = article;
     comment.body = body;
-    comment.author = user;
 
     const savedComment = await this.commentRepository.save(comment);
-    const article = await this.articleRepository.findOne({ slug: slug });
     article.comments.push(savedComment);
-    await this.articleRepository.save(article);
-    user.comments.push(savedComment);
-    await this.userRepository.save(user);
+    article = await this.articleRepository.save(article);
+    author.comments.push(savedComment);
+    await this.userRepository.save(author);
 
-    return savedComment;
+    return article;
+  }
+
+  async findAll(slug: string): Promise<Comment[]> {
+    const article = await this.articleRepository.findOne(
+      { slug },
+      {
+        relations: ['comments'],
+      },
+    );
+    return article.comments;
   }
 }
