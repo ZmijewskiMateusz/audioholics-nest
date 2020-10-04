@@ -11,6 +11,7 @@ import { DbConfigModule } from './config/database/config.module';
 import { LoggerModule } from './common/logger/logger.module';
 import { ProfileModule } from './profile/profile.module';
 import { CommentModule } from './comment/comment.module';
+import { CircleModule } from './circle/circle.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { CommentModule } from './comment/comment.module';
     ArticleModule,
     ProfileModule,
     CommentModule,
+    CircleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
