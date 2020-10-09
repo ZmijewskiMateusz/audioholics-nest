@@ -7,6 +7,7 @@ import {
   Unique,
   OneToMany,
   ManyToMany,
+  getRepository,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { ApiProperty, ApiExcludeEndpoint } from '@nestjs/swagger';
@@ -26,11 +27,9 @@ export class User extends BaseEntity {
   @ApiProperty()
   email: string;
 
-  @Exclude({ toPlainOnly: true })
   @Column({ select: false })
   password: string;
 
-  @Exclude({ toPlainOnly: true })
   @Column({ select: false })
   salt: string;
 
@@ -74,7 +73,12 @@ export class User extends BaseEntity {
   circles: Circle[];
 
   async validatePassword(password: string): Promise<boolean> {
-    const hash = await bcrypt.hash(password, this.salt);
-    return hash === this.password;
+    const user = await getRepository(User)
+      .createQueryBuilder('user')
+      .addSelect('user.password')
+      .addSelect('user.salt')
+      .getOne();
+    const hash = await bcrypt.hash(password, user.salt);
+    return hash === user.password;
   }
 }
