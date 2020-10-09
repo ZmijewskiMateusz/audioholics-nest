@@ -8,6 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AddCommentDto } from './dto/add-comment.dto';
 import { ArticleData } from '../article/article.data';
 import { CommentData } from './comment.data';
+import { classToPlain } from 'class-transformer';
 
 @Injectable()
 export class CommentService {
@@ -55,7 +56,7 @@ export class CommentService {
     const article = await this.articleRepository.findOne(
       { slug },
       {
-        relations: ['comments'],
+        relations: ['comments', 'comments.author'],
       },
     );
     return article.comments;

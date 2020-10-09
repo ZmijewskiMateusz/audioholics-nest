@@ -26,12 +26,12 @@ export class User extends BaseEntity {
   @ApiProperty()
   email: string;
 
-  @Exclude()
-  @Column()
+  @Exclude({ toPlainOnly: true })
+  @Column({ select: false })
   password: string;
 
-  @Exclude()
-  @Column()
+  @Exclude({ toPlainOnly: true })
+  @Column({ select: false })
   salt: string;
 
   @Column()
@@ -42,7 +42,7 @@ export class User extends BaseEntity {
   @ApiProperty()
   artistName: string;
 
-  @Column()
+  @Column({ select: false })
   isBlocked: boolean;
 
   @Column({ nullable: true })

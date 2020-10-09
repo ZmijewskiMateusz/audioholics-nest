@@ -17,6 +17,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { AddCommentDto } from './dto/add-comment.dto';
 import { ArticleData } from '../article/article.data';
 import { CommentData } from './comment.data';
+import { TransformClassToPlain } from 'class-transformer';
 
 @Controller('comments')
 export class CommentController {
@@ -36,6 +37,7 @@ export class CommentController {
   @Get(':articleSlug')
   @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(ClassSerializerInterceptor)
+  @TransformClassToPlain()
   async findAll(@Param('articleSlug') slug: string): Promise<Comment[]> {
     return await this.commentService.findAll(slug);
   }
