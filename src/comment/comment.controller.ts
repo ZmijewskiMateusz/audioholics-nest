@@ -16,6 +16,7 @@ import { Article } from '../article/article.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { AddCommentDto } from './dto/add-comment.dto';
 import { ArticleData } from '../article/article.data';
+import { CommentData } from './comment.data';
 
 @Controller('comments')
 export class CommentController {
@@ -28,7 +29,7 @@ export class CommentController {
     @Param('articleSlug') slug: string,
     @GetUser() user: User,
     @Body() addCommentDto: AddCommentDto,
-  ): Promise<Comment> {
+  ): Promise<CommentData> {
     return await this.commentService.create(slug, user.id, addCommentDto);
   }
 
