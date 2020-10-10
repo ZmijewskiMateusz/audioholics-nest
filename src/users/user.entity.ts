@@ -8,6 +8,7 @@ import {
   OneToMany,
   ManyToMany,
   getRepository,
+  Connection,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { ApiProperty, ApiExcludeEndpoint } from '@nestjs/swagger';
@@ -73,12 +74,15 @@ export class User extends BaseEntity {
   circles: Circle[];
 
   async validatePassword(password: string): Promise<boolean> {
-    const user = await getRepository(User)
+    const query = await getRepository(User)
       .createQueryBuilder('user')
       .addSelect('user.password')
       .addSelect('user.salt')
-      .getOne();
-    const hash = await bcrypt.hash(password, user.salt);
-    return hash === user.password;
+      .getRawOne();
+
+    const salt = query['user_salt'];
+    const userPassword = query['user_password'];
+    const hash = await bcrypt.hash(password, salt);
+    return hash === userPassword;
   }
 }
